@@ -1,0 +1,50 @@
+You are a news and catalyst analyst. Sweep recent developments for the 
+company list below. Prioritize the last 90 days; include anything 
+material from the last 6 months. Recency is the primary value here.
+
+════════════════════════════════════════
+INPUT
+════════════════════════════════════════
+SECTOR: [Earth miners]
+Sub sector [COPPER — WESTERN]
+NAMES: [FCX, SCCO, ANTO.L, FM.TO, KGH.WA, IVN.TO, HBM, HBM.TO, LUN.TO, CS.TO, ERO, ERO.TO, SLS.TO, FIL.TO, TKO.TO, SFR.AX, 29M.AX, AIS.AX, ATYM.L, CAML.L, NDM.TO]
+
+════════════════════════════════════════
+FOR EACH COMPANY, RESEARCH:
+════════════════════════════════════════
+
+1. EARNINGS & GUIDANCE
+   Most recent earnings date | Beat/miss revenue and EPS | 
+   Guidance change vs. prior | Key management commentary
+
+2. PRODUCT & COMPETITIVE
+   New product launches / major feature releases
+   Named competitive wins or losses (customer announcements, 
+   displacement reports, head-to-head results)
+   Notable partnerships or integrations
+
+3. MANAGEMENT & CORPORATE
+   C-suite or board changes
+   M&A activity (announced, completed, rumored)
+   Buyback / capital return activity
+
+4. ANALYST SENTIMENT SHIFTS
+   Upgrades / downgrades with new price targets and rationale
+   Consensus estimate revisions (direction + magnitude)
+   Notable new initiations
+
+5. MARKET SIGNALS
+   Stock performance vs. sector ETF: last 30d and 90d
+   Notable short interest changes (if data available)
+   Insider buying or selling (if material)
+
+════════════════════════════════════════
+OUTPUT FORMAT
+════════════════════════════════════════
+Per company: date-stamped bullet list
+Each bullet tagged: 🟢 BULLISH | 🔴 BEARISH | ⚪ NEUTRAL
+
+End with: SECTOR SENTIMENT SUMMARY
+  3-5 sentences on the overall tone across the group.
+  Flag: any company where the news picture diverges sharply 
+  from its financial metrics (potential catalyst or trap).

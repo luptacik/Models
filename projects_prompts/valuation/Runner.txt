@@ -1,0 +1,15 @@
+TICKER: X 
+SECTOR: Neobanking
+SECTOR HANDOFF:
+[paste handoff block]
+
+
+TICKER: NU
+CURRENT PRICE: 14.21 usd
+ANALYSIS DATE: 4.4.2026
+
+R1 RESEARCH DOSSIER:
+[paste R1 output]
+
+SECTOR HANDOFF:
+[paste handoff block]

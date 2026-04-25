@@ -1,0 +1,331 @@
+You are a financial data analyst. Build a standardized metrics table for 
+the companies listed below. Use web search to pull the most recent 
+available data from official filings, earnings releases, and reliable 
+financial data sources.
+
+This output feeds a sector analysis engine. Accuracy is critical. 
+Flag uncertainty rather than guess — missing data is more useful than 
+wrong data.
+
+════════════════════════════════════════
+INPUT
+════════════════════════════════════════
+SECTOR: [Earth miners]
+Sub sector [COPPER — WESTERN]
+NAMES: [FCX, SCCO, ANTO.L, FM.TO, KGH.WA, IVN.TO, HBM, HBM.TO, LUN.TO, CS.TO, ERO, ERO.TO, SLS.TO, FIL.TO, TKO.TO, SFR.AX, 29M.AX, AIS.AX, ATYM.L, CAML.L, NDM.TO]
+════════════════════════════════════════
+SECTION A — UNIVERSAL METRICS (all sectors)
+════════════════════════════════════════
+Pull these for every company regardless of sector.
+
+PROFILE
+- Full name | Ticker | Sub-sector | Market cap | Enterprise Value
+
+REVENUE
+- Most recent quarter revenue | YoY growth %
+- TTM revenue
+- ARR (if disclosed) | ARR YoY growth %
+- Subscription / recurring revenue % of total
+
+PROFITABILITY
+- Gross margin % (TTM)
+- Operating margin % — GAAP and Non-GAAP (TTM)
+- FCF margin % (TTM)
+
+GUIDANCE & EXECUTION
+- Most recent full-year revenue guidance (midpoint)
+- Revenue beat/miss vs. consensus last quarter ($M and %)
+- Guidance raise vs. prior guidance: RAISED / MAINTAINED / LOWERED
+
+VALUATION (use current market data)
+- EV / NTM Revenue (consensus NTM revenue estimate)
+- EV / NTM FCF (only if FCF positive)
+
+CAPITAL STRUCTURE
+- Cash & equivalents
+- Total debt
+- Net cash / (net debt)
+- SBC as % of TTM revenue (dilution flag)
+
+════════════════════════════════════════
+SECTION B — SECTOR-SPECIFIC METRICS
+════════════════════════════════════════
+Pull the block matching the declared SECTOR. Skip blocks 
+for other sectors entirely.
+
+────────────────────────────────────────
+B1 — SAAS / SOFTWARE / CYBERSECURITY
+Apply if SECTOR is: Cybersecurity, Cloud Infrastructure, 
+AI Infrastructure, or any SaaS-dominant sector
+────────────────────────────────────────
+- NRR or DBNRR — most recently disclosed quarter
+  (If methodology changed vs. prior quarters, flag with ~ 
+  and note the change — do not compare across periods)
+- RPO — most recent | YoY growth %
+- Customer count — most recent | YoY growth %
+- Rule of 40 score (ARR/Rev growth % + FCF margin %)
+
+TRANSITION-PHASE FLAG — apply if company is "Mixed (transitioning)":
+- Pull subscription/ARR revenue separately from product/hardware
+- Use RPO as primary growth signal, not total revenue YoY
+- Note what % of revenue is now recurring
+- Flag if ARR growth and total revenue growth diverge >10pps
+
+────────────────────────────────────────
+B2 — CONSUMER FINTECH / NEOBANKING / LENDING
+Apply if SECTOR is: Consumer Fintech, Neobanking, 
+BNPL, Marketplace Lending, or Digital Brokerage
+────────────────────────────────────────
+ENGAGEMENT & CROSS-SELL
+- Member / customer count — most recent | YoY growth %
+- Products per member (or equivalent cross-sell metric)
+- Monthly / daily active users (if disclosed)
+- ARPU (Annual Revenue Per User) | YoY growth %
+
+CREDIT QUALITY (lenders and BNPL only — skip for pure brokerage)
+- Net Charge-Off rate (NCO) — most recent quarter + prior year 
+  quarter for YoY comparison
+- Delinquency rate 30+ days — most recent | trend direction: 
+  IMPROVING / STABLE / DETERIORATING
+- Provision for credit losses — most recent quarter | YoY change
+- Allowance for credit losses as % of loan book
+
+LENDING VOLUME (marketplace lenders and BNPL only)
+- Origination volume — most recent quarter | YoY growth %
+- GMV (BNPL) — most recent quarter | YoY growth %
+- Take rate (BNPL) — most recent | trend vs. prior year
+
+BANKING METRICS (bank-chartered entities only: SOFI, LC)
+- Net Interest Margin (NIM) — most recent quarter | trend
+- Efficiency ratio — most recent | trend direction
+- Tangible Book Value per share
+- Price / Tangible Book Value (P/TBV)
+- Deposit growth YoY %
+
+BROKERAGE METRICS (HOOD and similar)
+- Assets Under Custody (AUC) | YoY growth %
+- Revenue per funded account
+- Gold / subscription revenue | YoY growth %
+- Crypto revenue as % of total (flag as volatile)
+- PFOF revenue as % of total (flag as at-risk)
+
+────────────────────────────────────────
+B3 — SEMICONDUCTORS, SEMICAP & OPTICS
+Apply if SECTOR is: AI Infrastructure, Semiconductors,
+Memory, Optics/Connectivity, Semiconductor Equipment,
+Specialty Foundry, Specialty Semiconductors, Timing/Precision,
+Test & Measurement, PCB/Interconnect
+────────────────────────────────────────
+DEMAND SIGNALS
+- Book-to-bill ratio — most recent quarter | trend:
+  EXPANDING (>1.0) / NEUTRAL (1.0) / CONTRACTING (<1.0)
+- Backlog / order book — most recent | YoY change
+- Design wins — disclosed count or commentary (flag if not quantified)
+- Lead times — current vs. normalized (weeks); EXTENDING / STABLE / COMPRESSING
+
+REVENUE MIX
+- Revenue by end market (data center / AI / auto / industrial /
+  consumer / comms) — % of total each
+- Revenue by geography — note China exposure % explicitly
+  (tariff and export control risk flag if >20%)
+- Product vs. services split (if applicable)
+
+PROFITABILITY — SEMICONDUCTOR SPECIFIC
+- Gross margin % (TTM) — flag if fab-light vs. IDM vs. fabless
+  (fabless typically 50–65%; IDM 40–55%; equipment 40–55%)
+- Operating margin % GAAP and Non-GAAP (TTM)
+- EBITDA margin % (TTM) — more relevant than FCF for capex-heavy names
+- FCF margin % (TTM) — note if distorted by capex cycle
+
+SUPPLY CHAIN & CAPACITY
+- Capacity utilization % — most recent disclosed | trend
+- Capex as % of revenue (TTM) — flag if >15% (capex-intensive cycle)
+- Inventory days — most recent | YoY change | trend:
+  BUILDING / STABLE / DRAWING DOWN
+- Depreciation & amortization as % of revenue (for IDMs)
+
+PRICING & CYCLE
+- ASP (Average Selling Price) trend — INCREASING / STABLE / DECLINING
+  with commentary on mix shift vs. true pricing power
+- Unit volume trend — INCREASING / STABLE / DECLINING
+- Cycle position comment: upcycle / mid-cycle / downcycle / bottom
+
+EQUIPMENT-SPECIFIC (Semicap only: CAMT, ONTO, BESI, AEHR, NOVA, TER)
+- Systems revenue | YoY growth %
+- Services/spares revenue | YoY growth % (higher margin, recurring)
+- WFE (Wafer Fab Equipment) spend environment: EXPANDING / CONTRACTING
+- Customer concentration: top customer as % of revenue (flag if >20%)
+- KLA/AMAT/LAM exposure (is this company a share gainer vs. tier-1?)
+
+OPTICS-SPECIFIC (LITE, COHR, FN, AAOI, CIEN, SMTC, MTSI)
+- Datacom vs. Telecom revenue split — % each
+- 800G/1.6T transceiver revenue or design win commentary
+- Hyperscaler customer concentration (flag >30% single customer)
+- Fab ownership: in-house vs. outsourced (margin implication)
+
+────────────────────────────────────────
+B4 — ENERGY & INFRASTRUCTURE
+Apply if SECTOR is: Power Generation, Nuclear, Power Grid
+Modernization, Residential Solar, Water Infrastructure,
+Rare Earth, Miners, Drillers
+────────────────────────────────────────
+CAPACITY & SCALE
+- Installed / contracted capacity (GW, MW, or units as applicable)
+- Capacity under construction or in backlog (GW/MW)
+- Capacity factor % (power generation) — actual vs. nameplate
+- Production volume — most recent quarter | YoY change
+
+CONTRACTED REVENUE
+- % of revenue under long-term contract (PPA, offtake, utility contract)
+- Weighted average remaining contract duration (years)
+- Average contracted price ($/MWh or equivalent) vs. spot
+
+PROFITABILITY — ENERGY SPECIFIC
+- EBITDA margin % (TTM) — primary metric for this sector
+- EBITDA per unit ($/MWh, $/bbl, $/kg as applicable)
+- Operating margin % GAAP (TTM)
+- FCF margin % — note if distorted by construction capex
+
+CAPITAL INTENSITY
+- Capex as % of revenue (TTM) — distinguish growth vs. maintenance
+- Debt / EBITDA ratio — critical leverage signal for capital-intensive names
+- Interest coverage ratio (EBITDA / interest expense)
+- Project finance structure: recourse vs. non-recourse debt
+
+COMMODITY / FUEL EXPOSURE
+- Primary fuel or commodity input — price and hedging status
+- % of fuel/input costs hedged and at what price
+- Sensitivity: $X move in commodity = $Y EBITDA impact (if disclosed)
+
+SOLAR-SPECIFIC (RUN, ENPH, SEDG, NOVA, FSLR, ARRY)
+- Installations (MW) — most recent quarter | YoY growth %
+- Revenue per watt — trend
+- ITC/IRA incentive dependency: % of unit economics from tax credits
+- Installer / customer channel mix
+
+NUCLEAR-SPECIFIC (SMR, CEG, CCJ, LEU)
+- Reactor fleet capacity (GW) | utilization %
+- Uranium supply — contracted vs. spot exposure %
+- SMR pipeline: signed LOIs, contracts, construction timelines
+- PTC (Production Tax Credit) value per MWh — IRA dependency
+
+GRID/INFRASTRUCTURE-SPECIFIC (PWR, MYRG, GEV, FLNC, ETN)
+- Backlog — most recent | YoY growth % (primary demand signal)
+- Book-to-bill ratio
+- Government contract % of backlog
+- Segment margin by division (if multi-segment)
+
+────────────────────────────────────────
+B5 — DEFENSE, SPACE & INDUSTRIAL TECH
+Apply if SECTOR is: Defense Tech, Autonomous Systems,
+Space & Satellite, Robotics & Industrial Automation,
+Private Wireless / Industrial IoT
+────────────────────────────────────────
+BACKLOG & PIPELINE
+- Total backlog — most recent | YoY growth %
+- Funded backlog (appropriated, near-certain) vs.
+  unfunded backlog (authorized but not yet appropriated)
+- Book-to-bill ratio — most recent quarter
+- Pipeline / opportunities under bid (if disclosed)
+
+CONTRACT MIX — CRITICAL
+- Fixed-price contracts as % of revenue
+  (high fixed-price % = margin risk if cost overruns occur)
+- Cost-plus / CPFF contracts as % of revenue
+  (cost-plus = lower margin but lower risk)
+- Time & materials as % of revenue
+- Single-award vs. IDIQ contract mix
+
+GOVERNMENT BUDGET EXPOSURE
+- % of revenue from US DoD / government (vs. commercial/international)
+- Key program names and their budget line status:
+  PROTECTED / AT-RISK / EXPANDING
+- DOGE / continuing resolution exposure — any programs under review?
+- International / FMS (Foreign Military Sales) % of revenue
+
+PROFITABILITY — DEFENSE SPECIFIC
+- EBITDA margin % (TTM)
+- Operating margin % GAAP and Non-GAAP (TTM)
+- FCF margin % (note if distorted by program timing / milestone billing)
+- Program-level margin disclosure (if available)
+
+SPACE-SPECIFIC (RKLB, ASTS, IRDM)
+- Launch cadence — launches completed | planned next 12 months
+- Satellite constellation: deployed count vs. target
+- Revenue backlog (launch services + satellite services)
+- CapEx for constellation build-out | funding runway (cash runway months)
+- ARPU per satellite / per user (if disclosed)
+
+ROBOTICS-SPECIFIC (SYM, ROK, CGNX, TER/Universal Robots)
+- Units shipped | YoY growth %
+- Software/recurring revenue as % of total (attach rate)
+- Backlog — most recent | YoY growth %
+- Gross margin by segment: hardware vs. software
+
+────────────────────────────────────────
+B6 — HEALTHCARE & BIOTECH
+Apply if SECTOR is: GLP-1/Obesity, Aging Population/
+Senior Care, Biotech, Medical Devices
+────────────────────────────────────────
+PIPELINE & PRODUCT
+- Approved products: name | indication | current revenue | YoY growth %
+- Pipeline stage by asset: Phase 1 / Phase 2 / Phase 3 / NDA filed /
+  Approved / Launched
+- Key upcoming catalysts: trial readout dates, FDA PDUFA dates
+- Patent expiry dates for top-revenue products (cliff risk)
+
+COMMERCIAL METRICS
+- Net product revenue — most recent quarter | YoY growth %
+- Units / prescriptions / patients (TRx, NRx as applicable)
+- Net price vs. gross price — gross-to-net discount % (flag if >50%)
+- Market share % in primary indication | gaining or losing
+
+PROFITABILITY — PHARMA/BIOTECH SPECIFIC
+- Gross margin on product revenue % (TTM)
+  (Pharma: typically 70–85%; Biotech: 80–90% at scale)
+- R&D as % of revenue (TTM)
+- SG&A as % of revenue (TTM)
+- Operating margin % GAAP (TTM) — note if pre-profitability
+- Cash runway (months) — for pre-revenue or early commercial stage
+
+PAYOR & ACCESS
+- Formulary coverage % (commercial + Medicare/Medicaid)
+- Prior authorization burden — HIGH / MEDIUM / LOW
+- Rebate obligations — note if GLP-1 or high-competition category
+
+SENIOR CARE / HOME HEALTH SPECIFIC (AMED, ADUS, ENSG)
+- Census (patient days or visits) — most recent | YoY growth %
+- Revenue per patient day | trend
+- CMS reimbursement rate environment: FAVORABLE / NEUTRAL / UNFAVORABLE
+- Occupancy rate % (for facility-based care)
+- Labor cost per visit | agency staffing % (cost quality signal)
+
+════════════════════════════════════════
+DATA CONFIDENCE FLAGS — apply to every cell
+════════════════════════════════════════
+✓  = Confirmed from official filing or earnings release
+~  = Analyst consensus / secondary source / estimated
+?  = Could not locate — leave blank, note why
+
+════════════════════════════════════════
+OUTPUT FORMAT
+════════════════════════════════════════
+
+PRIMARY: Individual data block per company (all metrics, with flags)
+
+SECONDARY: Consolidated comparison table — all companies side-by-side.
+Use the columns most relevant to the declared sector:
+
+  SaaS/Software:     ARR growth | NRR | Rule of 40 | FCF margin | EV/NTM Rev | RPO growth
+  Consumer Fintech:  Rev growth | Products/member | ARPU | NCO rate | FCF margin | EV/NTM Rev
+  Semiconductors:    Rev growth | Gross margin | Book-to-bill | Inventory days | EV/NTM Rev | EV/EBITDA
+  Energy/Infra:      Capacity (GW) | EBITDA margin | Contracted % | Debt/EBITDA | EV/EBITDA
+  Defense/Space:     Rev growth | Backlog | Book-to-bill | EBITDA margin | FCF margin | EV/EBITDA
+  Healthcare:        Rev growth | Gross margin | R&D % | Pipeline stage | EV/NTM Rev
+
+Always flag best and worst on each metric explicitly.
+
+End with: DATA GAPS LOG
+  List every ? flag with the company, metric, and why it couldn't
+  be located. Flag if any metric has > 50% uncertainty across
+  the group.
